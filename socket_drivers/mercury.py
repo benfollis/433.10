@@ -1,4 +1,4 @@
-# Driver class for Mercury Remote Control Outlets
+o# Driver class for Mercury Remote Control Outlets
 # Codes are currently base on the 350.115UK sockets
 # See https://www.amazon.co.uk/Mercury-350-115-Remote-Control-Adaptor-Black/dp/B0051NIJA4
 
@@ -24,7 +24,7 @@ class Mercury:
         self.bit_driver = bit_driver
 
     def switch_socket(self, socket_id, state):
-        code = self.SOCKET_CODES[socket_id][state]
+        code = self.SOCKET_CODES[int(socket_id)][state]
         for bit in code:
             self.bit_driver.send_bit(int(bit), self.SYMBOL_DURATION)
             
