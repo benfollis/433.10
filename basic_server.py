@@ -1,14 +1,17 @@
 # basic server to test the web server stuff, to be deleted
-from bit_drivers import Rpi.GPIO
-from socket_drivers import Mercury
-from web import RestServer
+import bit_drivers
+import socket_drivers
+import web
 
-import http.server
-from http.server import BaseHTTPRequestHandler, HTTPServer
+import SimpleHTTPServer
+import SocketServer
+
 
 if __name__ == '__main__': # which it will:
-    rpi_gpio = Rpi.GPIO(24, 0)
-    mercury_socket_driver = Mercury(rpi_gpio)
-    server = HTTPServer(('', 8080), RestServer)
+    rpi_gpio = bit_drivers.RpiGpio(24, 0)
+    mercury_socket_driver = socket_drivers.Mercury(rpi_gpio)
+    handler = web.RestServer
+    handler.sockets = {'sergio' : (mercury_socket_driver, 5)}
+    server = SocketServer.TCPServer(('', 8080), web.RestServer)
     server.serve_forever()
     
