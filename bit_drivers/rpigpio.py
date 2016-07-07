@@ -30,12 +30,10 @@ class RpiGpio:
         for i in sequence:
             if i == '1':
                 GPIO.output(self.gpio_pin, 1)
-                time.sleep(symbol_duration)
-                GPIO.output(self.gpio_pin, self.default_bit)
             elif i == '0':
                 GPIO.output(self.gpio_pin, 0)
-                time.sleep(symbol_duration)
-                GPIO.output(self.gpio_pin, self.default_bit)
+            time.sleep(symbol_duration)
+            GPIO.output(self.gpio_pin, self.default_bit)
                                                 
 
 
