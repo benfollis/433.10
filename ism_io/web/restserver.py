@@ -10,15 +10,14 @@ class RestServer(SimpleHTTPRequestHandler):
         path = self.path
         partition = path.rpartition('/')
         state = partition[2].lower()
-        print state
         # remove leading / in path
         socket_name = partition[0][1:].lower()
-        print socket_name
+        #if the socket name doesn't exist, send a 404
+        if socket_name not in self.sockets:
+            self.send_error(404, "Switch not found: %s" % socket_name)
+        
         socket = self.sockets[socket_name]
-        print socket
-        socket_driver = socket[0]
-        socket_id = socket[1]
-        socket_driver.switch_socket(socket_id, state)
+        socket.switch_socket(state)
         
         self.send_response(200)
         self.send_header('Content-type','text/html')

@@ -1,0 +1,19 @@
+{
+    "bit_drivers" : [
+	{ "name" : "canaveral",
+	  "type" : "dummy" }
+    ],
+    "sockets" : [
+	{ "name" : "Mercury",
+	  "type" : "mercury",
+	  "bit_driver" : "canaveral",
+	  "socket_id" : 1 },
+	{ "name" : "Gemini",
+	  "type" : "mercury",
+	  "bit_driver" : "canaveral",
+	  "socket_id" : 2 }
+    ],
+    "rest" : {
+	"port" : 8080
+    }
+}

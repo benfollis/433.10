@@ -21,12 +21,13 @@ class Mercury:
     TRANSMIT_ATTEMPTS = 15 # a sensible number of retries
     ATTEMPT_DELAY = 0.009 # the remote seems to use a similar delay
                            
-    def __init__(self, bit_driver):
+    def __init__(self, bit_driver, socket_id):
         self.bit_driver = bit_driver
+        self.socket_id = int(socket_id)
 
-    def switch_socket(self, socket_id, state):
-        print "setting socket " + str(socket_id) + " to " + state
-        code = self.SOCKET_CODES[int(socket_id)][state]
+    def switch_socket(self, state):
+        print "setting socket " + str(self.socket_id) + " to " + state
+        code = self.SOCKET_CODES[self.socket_id][state]
         print "using code " + code
         for t in range(self.TRANSMIT_ATTEMPTS):
             self.bit_driver.send_sequence(code, self.SYMBOL_DURATION)

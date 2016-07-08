@@ -5,10 +5,11 @@ from energenie import switch_on, switch_off
 
 class RpiEnergenieRemote:
 
-    def __init__(self):
+    def __init__(self, socket_id):
+        self.socket_id = int(socket_id)
 
-    def switch_socket(self, socket_id, state):
+    def switch_socket(self, state):
         if state == 'on':
-            switch_on(socket_id)
+            switch_on(self.socket_id)
         if state == 'off':
-            switch_off(socket_id)
+            switch_off(self.socket_id)

@@ -18,7 +18,6 @@ class RpiGpio:
         GPIO.output(self.gpio_pin, default_bit)
     
     def send_bit(self, bit, symbol_duration):
-#        print "sending " + str(bit) + " for duration " + str(symbol_duration)
         GPIO.output(self.gpio_pin, bit)
         time.sleep(symbol_duration)
         #reset to default
