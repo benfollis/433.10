@@ -33,7 +33,7 @@ class ConfigBinder:
         
     def _create_bit_driver(self, bit_config):
         if bit_config["type"].lower() == "rpigpio":
-            rpi_gpio = RpiGpio(bit_config["pin"], bit_confg["default_pin_state"])
+            rpi_gpio = RpiGpio(bit_config["pin"], bit_config["default_pin_state"])
             self.bit_drivers[bit_config["name"]] = rpi_gpio
         if bit_config["type"].lower() == "dummy":
             dummy = Dummy()
