@@ -1,5 +1,5 @@
 # Implementation of a rest interface to the sockets
-from SimpleHTTPServer import SimpleHTTPRequestHandler
+from http.server import SimpleHTTPRequestHandler
 
 class RestServer(SimpleHTTPRequestHandler): 
 
@@ -23,7 +23,7 @@ class RestServer(SimpleHTTPRequestHandler):
         self.send_header('Content-type','text/html')
         
         self.end_headers()
-        message = unicode("[" + socket_name + "]")
+        message = str("[" + socket_name + "]")
         self.wfile.write(message.encode("utf-8"))
         return
     

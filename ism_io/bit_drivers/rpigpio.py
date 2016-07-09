@@ -3,7 +3,6 @@ import time
 import sys
 import RPi.GPIO as GPIO
 
-
 # This class represents a bit driver for Rasberry PI gpio pins.
 # When instantiated it will set the GPIO pin to the default bit,
 # and after every transmission will return the GPIO pin to the default bit

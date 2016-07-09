@@ -26,9 +26,9 @@ class Mercury:
         self.socket_id = int(socket_id)
 
     def switch_socket(self, state):
-        print "setting socket " + str(self.socket_id) + " to " + state
+        print("setting socket " + str(self.socket_id) + " to " + state)
         code = self.SOCKET_CODES[self.socket_id][state]
-        print "using code " + code
+        print("using code " + code)
         for t in range(self.TRANSMIT_ATTEMPTS):
             self.bit_driver.send_sequence(code, self.SYMBOL_DURATION)
             # bring the socket low for the attempt delay
