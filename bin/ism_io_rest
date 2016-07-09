@@ -1,22 +1,14 @@
 #!/usr/bin/env python3
 # basic server to test the web server stuff, to be deleted
-import os
+
 import http.server
 import socketserver
-from optparse import OptionParser
-from ism_io.config.configbinder import ConfigBinder
+from ism_io.config.configloader import ConfigLoader
 from ism_io.web.restserver import RestServer
 
 if __name__ == '__main__': # which it will:
-    #load oour command line flags
-    parser = OptionParser()
-    parser.add_option("-c", "--config", dest="config", help="Config FILE to load", metavar="FILE")
-    (options, args) = parser.parse_args();
-    # parse the config file locaiton as relative to here
-    config_path = os.path.join(os.getcwd(), options.config)
-    config_binder = ConfigBinder(config_path)
-    config = config_binder.bind()
-    
+    config_loader = ConfigLoader()
+    config = config_loader.get_config()
     handler = RestServer
     handler.sockets = config["sockets"]
     port = config["rest"]["port"]
