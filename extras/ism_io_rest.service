@@ -1,0 +1,15 @@
+[Unit]
+Description=ism_io rest service
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/usr/local/bin/ism_io_rest
+# Fix the paths below:
+ExecStart=/usr/local/bin/ism_io_rest -c /etc/ism_io/config.json
+Restart=on-failure
+
+
+[Install]
+WantedBy=multi-user.target
