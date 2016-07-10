@@ -7,7 +7,7 @@ Please note, this is a Python3 package, and will not work under Python 2.x
 Installation
 ------------
 No release has been made to Python's package system hence you'll need to clone the source and install it via setup.py as follows
-`
+```
 git clone https://github.com/benfollis/ism_io.git
 cd ism_io
 python3 setup.py install
