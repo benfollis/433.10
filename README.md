@@ -7,23 +7,23 @@ Please note, this is a Python3 package, and will not work under Python 2.x
 Installation
 ------------
 No release has been made to Python's package system hence you'll need to clone the source and install it via setup.py as follows
-
+`
 git clone https://github.com/benfollis/ism_io.git
 cd ism_io
 python3 setup.py install
-
+`
 The package makes available two binaries, ism_io_rest and ism_io_fauxmo_config which are the rest server, and fauxmo config generator
 
 Configuration
 -------------
 After installation of the package we need to create a config file. Assuming this is to run as a service it's usually best to place config in /etc so we'll start out by copying the
 sample config to an appropriate etc location. Please note, if this is running on a Raspberry PI with the GPIO driver, the service will likely need to run as root in order to access the GPIO pins
-
+`
 sudo su
 mkdir /etc/ism_io
 cp ism_io/sample_config.json /etc/ism_io/config.json
 vi /etc/ism_io/config.json
-
+`
 At this point you should have a text editor open with the sample sockets config file.
 The file itself is in JSON format and is divided into the keys/sections below
 * bit_drivers - describes the bit drivers available to the socket drivers
@@ -50,24 +50,25 @@ At present the only configuration for the rest server is the port, as the rest s
 Configuration as a service
 --------------------------
 To run the ism_io rest service as a system service, and assuming you're on the Raspberry Ii, do the following
+`
 sudo su
 mkdir /var/ism_io_rest
 cp ism_io/extras/ism_io_rest.service /etc/systemd/system/
 systemctl enable ism_io_rest.service
 systemctl start ism_io_rest.service
-
+`
 
 Integration with fauxmo
 -----------------------
 If you want to integrate your switches with Amazon Echo you'll need to suport the wemo protocol. Fortunately, there is an exellent project that already does that, which can be found at
 [https://github.com/n8henrie/fauxmo].
 In order to make that integration easier the ism_io package provides a utility to read the ism_io config file and produce a valid fauxmo configuration that makes all ism_io sockets available via fauxmo. Assuming you have already configured fauxo as a service, then do the following
-
+`
 sudo su
 ism_io_fauxmo_config -c /etc/ism_io/config.json > /etc/fauxmo/config.json
 systemctl stop fauxmo.service
 systemctl start fauxmo.service
-
+`
 
 Adding new socket types
 -----------------------
@@ -79,6 +80,7 @@ to emit the same waveform. Since most of these usually use OOK, that boils down 
 * symbol duration I.E. the smallest unit of time the transmitter is on or off for
 * on/off pattern in terms of the sumbol duration
 For example, if the symbol duration is one second, (represented by a -)and the on off pattern is 010011100001 then you would expect a waveform something like
+`
 1  |-|  |---|    |-|
 *  | |  |   |    | |
 *  | |  |   |    | |
@@ -86,9 +88,9 @@ For example, if the symbol duration is one second, (represented by a -)and the o
 *  | |  |   |    | |
 0 _| |__|   |____| |
 Time ->
+`
 
-
-To determine the symbol duration, you can either use the techique in the article above, or rig up a 433 GPIO  reciever and listen for the shortest time the
+To determine the symbol duration, you can either use the techique in the article above, or rig up a 433MHZ GPIO reciever and listen for the shortest time the
 GPIO bit is recieving a 1.
 
 Once you've determined the above, make a class under the socket_driver package, and modify config/configbinder to allow your socket to be used. If you can't find a bit driver
