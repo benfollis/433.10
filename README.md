@@ -35,15 +35,15 @@ All bit drivers and sockets require a "name" by which they can be refered to lat
 ### bit_drivers
 There are currently two bit driver types:
 1. dummy - A bit driver used to test socket drivers when either the hardware is not present on the dev machine, or we want to debug the socket driver. It has no confiuration besides it's name
-2. rpigpio - A bit driver that uses the Raspberry PI GPIO system. The required configuration parameters are
+2. rpigpio - A bit driver that uses the Raspberry PI GPIO system. This driver requires installation of the RPi GPIO package, which should be installed by default. The required configuration parameters are
    * "pin" - the GPIO pin the transmitter is using to signal on / off
    * "default_pin_state" - the default state that the GPIO should be set to after sending a symbol. The rpigpio driver will allways return the pin to this state after settig it to a 1 or 0 during symbol transmission
 
 ### socket_drivers
-All socket drivers require a bit driver to function (they don't usually send bits themselves), this is specified via setting the "bit_driver" key to the name of the bit driver you want to use.
+Most socket drivers require a bit driver to function (they don't usually send bits themselves), this is specified via setting the "bit_driver" key to the name of the bit driver you want to use.
 There is currently one socket driver type:
 1. mercury - A socket driver that cantrol the Mercury 350.115 sockets [https://www.amazon.co.uk/dp/B0051NIJA4]. This driver requires a the "socket_id" to be configured for the particular socket under control. The valid socket ids are 1,2,3,4 and 5.
-
+2. energenie_pimote - A socket driver to controll energenie sockets via the PIMOTE. This driver does _not_ require a bit driver, but does require the energenie package be installed. The valid socket ids are 1,2,3 or 4 
 ### rest
 At present the only configuration for the rest server is the port, as the rest server itself will bind to any available IP. The port may be sepecified by the "port" key under the rest section. Integer is prefered over string.
 

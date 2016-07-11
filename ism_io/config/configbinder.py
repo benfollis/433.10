@@ -2,6 +2,7 @@ import json
 from ism_io.bit_drivers.dummy import Dummy
 try:
     from ism_io.bit_drivers.rpigpio import RpiGpio
+    from ism_io.socket_drivers.rpi_energenie_remote import RpiEnergenieRemote
 except ImportError:
     pass # fail later
 
@@ -43,5 +44,8 @@ class ConfigBinder:
         if socket_config["type"].lower() == "mercury":
             socket = Mercury(self.bit_drivers[socket_config["bit_driver"]], int(socket_config["socket_id"]))
             #unicode decode the name, since nobody expects string names to be unicode
-            self.bound_config["sockets"][str(socket_config["name"]).lower()] = socket
-        
+        if socket_config["type"].lower() == "energenie_pimote":
+            socket = RpiEnergenieRemote(int(socket_config["socket_id"]))
+
+        self.bound_config["sockets"][str(socket_config["name"]).lower()] = socket
+             
