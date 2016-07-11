@@ -11,6 +11,7 @@ No release has been made to Python's package system hence you'll need to clone t
 git clone https://github.com/benfollis/ism_io.git
 cd ism_io
 python3 setup.py install
+cd ..
 ```
 The package makes available two binaries, ism_io_rest and ism_io_fauxmo_config which are the rest server, and fauxmo config generator
 
