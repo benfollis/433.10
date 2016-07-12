@@ -11,7 +11,11 @@
 	{ "name" : "Gemini",
 	  "type" : "mercury",
 	  "bit_driver" : "canaveral",
-	  "socket_id" : 2 }
+	  "socket_id" : 2 },
+	{ "name" : "Apollo",
+	  "type" : "socket_group",
+	  "members" : ["mercury", "gemini"]
+	}
     ],
     "rest" : {
 	"port" : 8080

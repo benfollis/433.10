@@ -7,6 +7,7 @@ except ImportError:
     pass # fail later
 
 from ism_io.socket_drivers.mercury import Mercury
+from ism_io.socket_drivers.socketgroup import SocketGroup
 
 # Basic config binder.
 # Names are case insensitive, and will be converted to python strings from
@@ -43,9 +44,10 @@ class ConfigBinder:
     def _create_socket(self, socket_config):
         if socket_config["type"].lower() == "mercury":
             socket = Mercury(self.bit_drivers[socket_config["bit_driver"]], int(socket_config["socket_id"]))
-            #unicode decode the name, since nobody expects string names to be unicode
         if socket_config["type"].lower() == "energenie_pimote":
             socket = RpiEnergenieRemote(int(socket_config["socket_id"]))
-
-        self.bound_config["sockets"][str(socket_config["name"]).lower()] = socket
+        if socket_config["type"].lower() == "socket_group":
+            socket = SocketGroup(socket_config["members"], self.bound_config["sockets"])
+            
+        self.bound_config["sockets"][socket_config["name"].lower()] = socket
              

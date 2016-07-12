@@ -15,6 +15,7 @@ class RestServer(SimpleHTTPRequestHandler):
         #if the socket name doesn't exist, send a 404
         if socket_name not in self.sockets:
             self.send_error(404, "Switch not found: %s" % socket_name)
+            return
         
         socket = self.sockets[socket_name]
         socket.switch_socket(state)
