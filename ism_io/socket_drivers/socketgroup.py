@@ -15,5 +15,5 @@ class SocketGroup:
 
     def switch_socket(self, state):
         for socket_name in self.group_members:
-            socket = self.sockets[socket_name]
+            socket = self.sockets[socket_name.lower()]
             socket.switch_socket(state)
