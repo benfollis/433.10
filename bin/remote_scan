@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+
+# script which uses a 433MHZ OOK reciever to scan for the bit sequence remotes emit
+from math import floor, ceil
+
+import RPi.GPIO as GPIO
+from optparse import OptionParser
+import datetime
+
+def gather_data(read_time, pin):
+    start = datetime.datetime.now()
+    end = start + datetime.timedelta(seconds=read_time)
+    increments = []
+    now = start
+    last_value = None
+    #set to a large timestamp so we don't have an initial transition time of 0
+    last_timestamp = now - datetime.timedelta(seconds = 99)
+    while now < end:
+        value = GPIO.input(pin)
+        #read and then update only on the shifts
+        if value != last_value:
+            if last_value is not None:
+                shift_increment = now.timestamp() - last_timestamp.timestamp()
+                increments.append([last_value, shift_increment])
+            last_value = value
+            last_timestamp = now
+        now = datetime.datetime.now()
+
+    return increments
+
+
+def smallest_shift(increments):
+    return min(element[1] for element in increments if element[1] > .00009) #noise floor
+
+
+def analyze_data(increments):
+    min_interval = smallest_shift(increments)
+    print("Min interval is " + str(min_interval))
+    results = ""
+    for index, element in enumerate(increments):
+        #set first one to single width as it's length is bogus
+        if index == 0:
+            width = 1
+        else:
+            width = ceil(element[1] / min_interval)
+        if width > 20: #likely a code separator
+            results += "\n"
+        else:
+            results += str(element[0]) * width
+    return results
+
+if __name__ == '__main__':
+    # load our command line flags
+    parser = OptionParser()
+    parser.add_option("-p", "--pin", dest="pin", help="GPIO Pin to read from", metavar="PIN", type="int")
+    parser.add_option("-d", "--duration", dest="read_time", help="Durations in seconds", metavar="READ_TIME", type="int")
+    (options, args) = parser.parse_args()
+    pin = options.pin
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(pin, GPIO.IN)
+    data = gather_data(options.read_time, pin)
+#    print(data)
+    GPIO.cleanup()
+    results = analyze_data(data)
+    print(results)

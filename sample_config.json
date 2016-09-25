@@ -1,23 +1,45 @@
 {
-    "bit_drivers" : [
-	{ "name" : "canaveral",
-	  "type" : "dummy" }
-    ],
-    "sockets" : [
-	{ "name" : "Mercury",
-	  "type" : "mercury",
-	  "bit_driver" : "canaveral",
-	  "socket_id" : 1 },
-	{ "name" : "Gemini",
-	  "type" : "mercury",
-	  "bit_driver" : "canaveral",
-	  "socket_id" : 2 },
-	{ "name" : "Apollo",
-	  "type" : "socket_group",
-	  "members" : ["mercury", "gemini"]
-	}
-    ],
-    "rest" : {
-	"port" : 8080
+  "bit_drivers": [
+    {
+      "name": "canaveral",
+      "type": "dummy"
+    },
+    {
+      "name": "rpi",
+      "type": "rpigpio",
+      "pin": 18,
+      "default_pin_state": 0
     }
+  ],
+  "sockets": [
+    {
+      "name": "Mercury",
+      "type": "mercury",
+      "bit_driver": "canaveral",
+      "socket_id": 1
+    },
+    {
+      "name": "Gemini",
+      "type": "mercury",
+      "bit_driver": "canaveral",
+      "socket_id": 2
+    },
+    {
+      "name": "Apollo",
+      "type": "socket_group",
+      "members": [
+        "mercury",
+        "gemini"
+      ]
+    },
+    {
+      "name": "Soyuz",
+      "type": "magicfly",
+      "bit_driver": "rpi",
+      "socket_id": 5
+    }
+  ],
+  "rest": {
+    "port": 8080
+  }
 }
